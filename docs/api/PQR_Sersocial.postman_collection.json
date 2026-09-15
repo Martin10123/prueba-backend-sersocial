@@ -1,0 +1,123 @@
+{
+  "info": {
+    "name": "PQR Sersocial API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Colección de endpoints del MVP PQR + auth + stats"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:8000" },
+    { "key": "accessToken", "value": "" },
+    { "key": "pqrId", "value": "1" },
+    { "key": "radicado", "value": "PQR-20260912-0001" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"agente@sersocial.test\",\n  \"password\": \"Agente123!\"\n}"
+            },
+            "url": "{{baseUrl}}/api/auth/login/"
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": "{{baseUrl}}/api/auth/me/"
+          }
+        }
+      ]
+    },
+    {
+      "name": "PQR",
+      "item": [
+        {
+          "name": "Listar PQR",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/pqr/?estado=&tipo=&prioridad=&categoria="
+          }
+        },
+        {
+          "name": "Crear PQR",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo\": \"peticion\",\n  \"titulo\": \"Nueva solicitud\",\n  \"descripcion\": \"Detalle de la solicitud\",\n  \"categoria\": \"General\",\n  \"prioridad\": \"media\",\n  \"canal\": \"web\",\n  \"solicitante\": {\n    \"nombre\": \"Maria\",\n    \"apellido\": \"Ruiz\",\n    \"identificacion\": \"1099887766\",\n    \"email\": \"maria.ruiz@example.com\",\n    \"telefono\": \"3009998877\"\n  }\n}"
+            },
+            "url": "{{baseUrl}}/api/pqr/"
+          }
+        },
+        {
+          "name": "Detalle PQR",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/pqr/{{pqrId}}/"
+          }
+        },
+        {
+          "name": "Cambiar estado/prioridad",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"en_gestion\",\n  \"prioridad\": \"alta\"\n}"
+            },
+            "url": "{{baseUrl}}/api/pqr/{{pqrId}}/estado/"
+          }
+        },
+        {
+          "name": "Listar seguimiento",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/pqr/{{pqrId}}/seguimiento/"
+          }
+        },
+        {
+          "name": "Agregar seguimiento",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descripcion\": \"Seguimiento interno de prueba\",\n  \"tipo_accion\": \"comentario\"\n}"
+            },
+            "url": "{{baseUrl}}/api/pqr/{{pqrId}}/seguimiento/"
+          }
+        },
+        {
+          "name": "Buscar por radicado",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/pqr/buscar/?radicado={{radicado}}"
+          }
+        },
+        {
+          "name": "Estadísticas",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": "{{baseUrl}}/api/stats/"
+          }
+        }
+      ]
+    }
+  ]
+}
