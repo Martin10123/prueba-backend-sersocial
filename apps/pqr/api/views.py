@@ -3,6 +3,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.common.pagination import StandardPagination
 from apps.common.permissions import IsAuthenticatedAgent
 from apps.pqr.api.serializers import (
     PQRCreateSerializer,
@@ -28,8 +29,10 @@ class PQRListCreateView(APIView):
         }
         filters = {k: v for k, v in filters.items() if v}
         qs = service.list_pqrs(filters)
-        serializer = PQRListSerializer(qs, many=True, context={"request": request})
-        return Response(serializer.data)
+        paginator = StandardPagination()
+        page = paginator.paginate_queryset(qs, request)
+        serializer = PQRListSerializer(page, many=True, context={"request": request})
+        return paginator.get_paginated_response(serializer.data)
 
     def post(self, request):
         serializer = PQRCreateSerializer(data=request.data)

@@ -34,7 +34,7 @@ Criterio de aceptación alineado al MVP de la prueba.
 
 **Criterios**
 
-- `GET /api/pqr/` acepta query params `tipo`, `estado`, `prioridad`, `categoria`.
+- `GET /api/pqr/` acepta query params `tipo`, `estado`, `prioridad`, `categoria`, `page` y `page_size`.
 - El listado de la pantalla de inicio consume esos filtros.
 
 ## HU-04 — Ver detalle e historial

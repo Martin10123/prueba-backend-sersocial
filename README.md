@@ -132,7 +132,7 @@ black --check .
 ## Endpoints principales
 
 - `GET /api/health/`
-- `GET/POST /api/pqr/`
+- `GET/POST /api/pqr/` (listado paginado: `page`, `page_size`)
 - `GET /api/pqr/{id}/`
 - `PATCH /api/pqr/{id}/estado/`
 - `GET/POST /api/pqr/{id}/seguimiento/`

@@ -124,8 +124,38 @@ def test_filtro_categoria_parcial(api):
     api.post("/api/pqr/", _payload(), format="json")
     response = api.get("/api/pqr/", {"categoria": "gene"})
     assert response.status_code == 200
-    assert len(response.json()) == 1
-    assert response.json()[0]["solicitante_nombre"] == "Juan"
+    body = response.json()
+    assert body["count"] == 1
+    assert len(body["results"]) == 1
+    assert body["results"][0]["solicitante_nombre"] == "Juan"
+
+
+@pytest.mark.django_db
+def test_listado_paginado(api):
+    for i in range(3):
+        api.post(
+            "/api/pqr/",
+            _payload(
+                titulo=f"PQR {i}",
+                solicitante={
+                    "nombre": "N",
+                    "apellido": "A",
+                    "identificacion": f"70070070{i}",
+                    "email": f"n{i}@example.com",
+                    "telefono": "",
+                },
+            ),
+            format="json",
+        )
+    page1 = api.get("/api/pqr/", {"page": 1, "page_size": 2})
+    assert page1.status_code == 200
+    body = page1.json()
+    assert body["count"] == 3
+    assert len(body["results"]) == 2
+    assert body["next"] is not None
+    page2 = api.get("/api/pqr/", {"page": 2, "page_size": 2})
+    assert page2.status_code == 200
+    assert len(page2.json()["results"]) == 1
 
 
 @pytest.mark.django_db
