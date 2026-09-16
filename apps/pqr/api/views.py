@@ -16,10 +16,7 @@ from container import get_container
 
 
 class PQRListCreateView(APIView):
-    def get_permissions(self):
-        if self.request.method == "POST":
-            return [AllowAny()]
-        return [AllowAny()]
+    permission_classes = [AllowAny]
 
     def get(self, request):
         service = get_container().pqr_service

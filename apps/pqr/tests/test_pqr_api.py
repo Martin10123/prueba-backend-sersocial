@@ -21,16 +21,6 @@ def agente(db):
     return user
 
 
-@pytest.fixture
-def supervisor(db):
-    return User.objects.create_user(
-        email="super@test.com",
-        password="Super123!",
-        nombre="Super Test",
-        rol=UserRole.SUPERVISOR,
-    )
-
-
 def _payload(**overrides):
     data = {
         "tipo": TipoPQR.PETICION,

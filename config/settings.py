@@ -34,10 +34,8 @@ INSTALLED_APPS = [
     # Third party
     "rest_framework",
     "rest_framework_simplejwt",
-    "django_filters",
     "corsheaders",
     "drf_spectacular",
-    "django_extensions",
     # Local
     "apps.common",
     "apps.accounts",
@@ -115,12 +113,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
     ),
-    "DEFAULT_FILTER_BACKENDS": (
-        "django_filters.rest_framework.DjangoFilterBackend",
-    ),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    "DEFAULT_PAGINATION_CLASS": "apps.common.pagination.StandardPagination",
-    "PAGE_SIZE": 20,
     "EXCEPTION_HANDLER": "apps.common.exception_handler.custom_exception_handler",
 }
 

@@ -2,8 +2,6 @@
 
 from functools import lru_cache
 
-from apps.accounts.repositories import UserRepository
-from apps.accounts.services.auth_service import AuthService
 from apps.pqr.repositories import (
     PQRRepository,
     SeguimientoRepository,
@@ -17,13 +15,11 @@ from apps.pqr.services.stats_service import StatsService
 
 class Container:
     def __init__(self):
-        self.user_repository = UserRepository()
         self.solicitante_repository = SolicitanteRepository()
         self.pqr_repository = PQRRepository()
         self.seguimiento_repository = SeguimientoRepository()
         self.notifier = build_notifier()
 
-        self.auth_service = AuthService(self.user_repository)
         self.pqr_service = PQRService(
             self.pqr_repository,
             self.solicitante_repository,
